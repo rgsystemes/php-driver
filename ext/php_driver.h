@@ -274,6 +274,16 @@ php5to7_string_compare(php5to7_string s1, php5to7_string s2)
 #define PHP5TO7_ZEND_HASH_FOREACH_NUM_KEY_VAL(ht, _h, _val) \
   ZEND_HASH_FOREACH_NUM_KEY_VAL(ht, _h, _val)
 
+#if ((PHP_MAJOR_VERSION == 8 && PHP_MINOR_VERSION >= 2) || PHP_MAJOR_VERSION > 8)
+#define PHP5TO7_ZEND_HASH_FOREACH_STR_KEY_VAL(ht, _key, _val) \
+  ZEND_HASH_FOREACH(ht, 0);                                   \
+  if (__key) {                                                \
+    (_key) = __key->val;                                      \
+  }  else {                                                   \
+    (_key) = NULL;                                            \
+  }                                                           \
+  _val = _z;
+#else
 #define PHP5TO7_ZEND_HASH_FOREACH_STR_KEY_VAL(ht, _key, _val) \
   ZEND_HASH_FOREACH(ht, 0);                                   \
   if (_p->key) {                                              \
@@ -282,6 +292,7 @@ php5to7_string_compare(php5to7_string s1, php5to7_string s2)
     (_key) = NULL;                                            \
   }                                                           \
   _val = _z;
+#endif
 
 #define PHP5TO7_ZEND_HASH_FOREACH_END(ht) ZEND_HASH_FOREACH_END()
 
