@@ -163,8 +163,6 @@ class Integration {
         // Get the server version the session is connected to
         $rows = $this->session->execute(self::SELECT_SERVER_VERSION);
         $this->serverVersion = $rows->first()["release_version"];
-
-        sleep(5);
     }
 
     public function __destruct() {

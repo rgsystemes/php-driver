@@ -49,7 +49,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct($cassandra_version)
     {
-        $this->ccm = new \CCM();
+        $this->ccm = new \CCM($cassandra_version);
     }
 
     /**
@@ -329,7 +329,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $this->process->setEnv(array_replace((array) $this->process->getEnv(), $env));
         }
         $this->process->run();
-        sleep(5);
     }
 
     private function startWebServer()
@@ -344,7 +343,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }), $this->workingDir);
         $this->webServerProcess->start();
         echo 'Web Server Started: ' . $this->webServerProcess->getPid() . "\n";
-        sleep(5);
     }
 
     private function terminateWebServer() {

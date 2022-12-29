@@ -38,15 +38,15 @@ Feature: Materialized View Metadata
       Name: users_view
       BaseTable: users
       DefaultTimeToLive: 0
-      Compression: Cassandra\Map::__set_state(array(
+      Compression: \Cassandra\Map::__set_state(array(
          'type' =>
-        Cassandra\Type\Map::__set_state(array(
+        \Cassandra\Type\Map::__set_state(array(
            'keyType' =>
-          Cassandra\Type\Scalar::__set_state(array(
+          \Cassandra\Type\Scalar::__set_state(array(
              'name' => 'varchar',
           )),
            'valueType' =>
-          Cassandra\Type\Scalar::__set_state(array(
+          \Cassandra\Type\Scalar::__set_state(array(
              'name' => 'varchar',
           )),
         )),

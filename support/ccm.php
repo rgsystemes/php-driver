@@ -22,7 +22,7 @@ use Cassandra\SimpleStatement;
 class CCM
 {
     const DEFAULT_CLUSTER_PREFIX = "php-driver";
-    const DEFAULT_CASSANDRA_VERSION = "4.0.1";
+    const DEFAULT_CASSANDRA_VERSION = "4.1.0";
     const PROCESS_TIMEOUT_IN_SECONDS = 480;
     private $clusterPrefix;
     private $isSilent;
@@ -37,7 +37,7 @@ class CCM
     public function __construct($version = self::DEFAULT_CASSANDRA_VERSION, $isSilent = true, $clusterPrefix = self::DEFAULT_CLUSTER_PREFIX)
     {
         $this->version            = $version;
-        $this->isSilent           = $isSilent;
+        $this->isSilent           = $isSilent && \getenv('CI');
         $this->clusterPrefix      = $clusterPrefix;
         $this->cluster            = null;
         $this->session            = null;

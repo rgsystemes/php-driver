@@ -350,9 +350,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_num, 0, ZEND_RETURN_VALUE, 1)
   ZEND_ARG_INFO(0, num)
 ZEND_END_ARG_INFO()
 
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
+
 static zend_function_entry php_driver_varint_methods[] = {
   PHP_ME(Varint, __construct, arginfo__construct, ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-  PHP_ME(Varint, __toString, arginfo_none, ZEND_ACC_PUBLIC)
+  PHP_ME(Varint, __toString, arginfo_string_return, ZEND_ACC_PUBLIC)
   PHP_ME(Varint, type, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Varint, value, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Varint, add, arginfo_num, ZEND_ACC_PUBLIC)

@@ -346,9 +346,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_num, 0, ZEND_RETURN_VALUE, 1)
   ZEND_ARG_INFO(0, num)
 ZEND_END_ARG_INFO()
 
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
+
 static zend_function_entry php_driver_float_methods[] = {
   PHP_ME(Float, __construct, arginfo__construct, ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-  PHP_ME(Float, __toString, arginfo_none, ZEND_ACC_PUBLIC)
+  PHP_ME(Float, __toString, arginfo_string_return, ZEND_ACC_PUBLIC)
   PHP_ME(Float, type, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Float, value, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Float, isInfinite, arginfo_none, ZEND_ACC_PUBLIC)
