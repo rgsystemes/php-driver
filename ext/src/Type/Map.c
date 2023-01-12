@@ -129,13 +129,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_none, 0, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 PHP7TO8_ARG_INFO_VARIADIC(arginfo_value, value)
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
 
 static zend_function_entry php_driver_type_map_methods[] = {
   PHP_ME(TypeMap, __construct, arginfo_none,  ZEND_ACC_PRIVATE)
   PHP_ME(TypeMap, name,        arginfo_none,  ZEND_ACC_PUBLIC)
   PHP_ME(TypeMap, keyType,     arginfo_none,  ZEND_ACC_PUBLIC)
   PHP_ME(TypeMap, valueType,   arginfo_none,  ZEND_ACC_PUBLIC)
-  PHP_ME(TypeMap, __toString,  arginfo_none,  ZEND_ACC_PUBLIC)
+  PHP_ME(TypeMap, __toString,  arginfo_string_return,  ZEND_ACC_PUBLIC)
   PHP_ME(TypeMap, create,      arginfo_value, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

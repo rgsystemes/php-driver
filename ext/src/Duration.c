@@ -213,13 +213,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo__construct, 0, ZEND_RETURN_VALUE, 3)
   ZEND_ARG_INFO(0, nanos)
 ZEND_END_ARG_INFO()
 
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
+
 static zend_function_entry php_driver_duration_methods[] = {
   PHP_ME(Duration, __construct,  arginfo__construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
   PHP_ME(Duration, type, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Duration, months, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Duration, days, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Duration, nanos, arginfo_none, ZEND_ACC_PUBLIC)
-  PHP_ME(Duration, __toString, arginfo_none, ZEND_ACC_PUBLIC)
+  PHP_ME(Duration, __toString, arginfo_string_return, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
 

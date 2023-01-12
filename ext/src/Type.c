@@ -207,9 +207,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_map, 0, ZEND_RETURN_VALUE, 2)
   PHP_DRIVER_NAMESPACE_ZEND_ARG_OBJ_INFO(0, valueType, Type, 0)
 ZEND_END_ARG_INFO()
 
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
+
 static zend_function_entry php_driver_type_methods[] = {
   PHP_ABSTRACT_ME(Type, name,       arginfo_none)
-  PHP_ABSTRACT_ME(Type, __toString, arginfo_none)
+  PHP_ABSTRACT_ME(Type, __toString, arginfo_string_return)
 
 #define XX_SCALAR_METHOD(name, _) PHP_ME(Type, name, arginfo_none, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC|ZEND_ACC_FINAL)
   PHP_DRIVER_SCALAR_TYPES_MAP(XX_SCALAR_METHOD)

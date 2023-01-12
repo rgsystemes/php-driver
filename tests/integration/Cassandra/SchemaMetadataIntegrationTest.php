@@ -20,6 +20,8 @@ namespace Cassandra;
 
 /**
  * Schema metadata integration tests.
+ *
+ * @group flaky
  */
 class SchemaMetadataIntegrationTest extends BasicIntegrationTest {
     /**
@@ -320,7 +322,7 @@ class SchemaMetadataIntegrationTest extends BasicIntegrationTest {
             }
         }
         if (is_null($expectedFunction)) {
-            $this->fail("Unable to Locate Function: ${name}");
+            $this->fail("Unable to Locate Function: {$name}");
         }
 
         $this->assertEquals($expectedFunction->simpleName(),

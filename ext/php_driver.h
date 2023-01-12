@@ -129,6 +129,9 @@ typedef zend_object php7to8_object;
 #define PHP7TO8_ARG_INFO_VOID_RETURN(arginfo) \
   ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_INFO_EX(arginfo, 0, 0, IS_VOID, 0) \
   ZEND_END_ARG_INFO()
+#define PHP7TO8_ARG_INFO_STRING_RETURN(arginfo) \
+  ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_INFO_EX(arginfo, 0, 0, IS_STRING, 0) \
+  ZEND_END_ARG_INFO()
 #define PHP7TO8_ARG_INFO_BOOL_RETURN(arginfo) \
   ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_INFO_EX(arginfo, 0, 0, _IS_BOOL, 0) \
   ZEND_END_ARG_INFO()
@@ -172,6 +175,9 @@ typedef zval php7to8_object;
 #define PHP7TO8_ARG_INFO_VOID_RETURN(arginfo) \
   ZEND_BEGIN_ARG_INFO_EX(arginfo, 0, ZEND_RETURN_VALUE, 0) \
   ZEND_END_ARG_INFO()
+#define PHP7TO8_ARG_INFO_STRING_RETURN(arginfo) \
+  ZEND_BEGIN_ARG_INFO_EX(arginfo, 0, ZEND_RETURN_VALUE, 0) \
+  ZEND_END_ARG_INFO()
 #define PHP7TO8_ARG_INFO_BOOL_RETURN(arginfo) \
   ZEND_BEGIN_ARG_INFO_EX(arginfo, 0, ZEND_RETURN_VALUE, 0) \
   ZEND_END_ARG_INFO()
@@ -198,6 +204,12 @@ typedef zval php7to8_object;
   ZEND_BEGIN_ARG_INFO_EX(arginfo, 0, ZEND_RETURN_VALUE, 1) \
     ZEND_ARG_INFO(0, arg1) \
   ZEND_END_ARG_INFO()
+#endif
+
+#if ((PHP_MAJOR_VERSION == 8 && PHP_MINOR_VERSION >= 2) || PHP_MAJOR_VERSION > 8)
+#define PHP7TO82_ZEND_KEY() __key ? __key->val : NULL
+#else
+#define PHP7TO82_ZEND_KEY() _p->key ? _p->key->val : NULL
 #endif
 
 #if PHP_MAJOR_VERSION >= 7
@@ -276,11 +288,7 @@ php5to7_string_compare(php5to7_string s1, php5to7_string s2)
 
 #define PHP5TO7_ZEND_HASH_FOREACH_STR_KEY_VAL(ht, _key, _val) \
   ZEND_HASH_FOREACH(ht, 0);                                   \
-  if (_p->key) {                                              \
-    (_key) = _p->key->val;                                    \
-  }  else {                                                   \
-    (_key) = NULL;                                            \
-  }                                                           \
+  _key = PHP7TO82_ZEND_KEY();                                 \
   _val = _z;
 
 #define PHP5TO7_ZEND_HASH_FOREACH_END(ht) ZEND_HASH_FOREACH_END()

@@ -169,9 +169,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_none, 0, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
+PHP7TO8_ARG_INFO_STRING_RETURN(arginfo_string_return)
+
 static zend_function_entry php_driver_timeuuid_methods[] = {
   PHP_ME(Timeuuid, __construct, arginfo__construct, ZEND_ACC_CTOR|ZEND_ACC_PUBLIC)
-  PHP_ME(Timeuuid, __toString, arginfo_none, ZEND_ACC_PUBLIC)
+  PHP_ME(Timeuuid, __toString, arginfo_string_return, ZEND_ACC_PUBLIC)
   PHP_ME(Timeuuid, type, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Timeuuid, uuid, arginfo_none, ZEND_ACC_PUBLIC)
   PHP_ME(Timeuuid, version, arginfo_none, ZEND_ACC_PUBLIC)

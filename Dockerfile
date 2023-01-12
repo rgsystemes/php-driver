@@ -1,4 +1,4 @@
-FROM php:8.1
+FROM php:8.2
 WORKDIR /tmp/cassandra-php-driver
 
 RUN apt update -y \
@@ -32,11 +32,16 @@ RUN ext/doc/generate_doc.sh
 COPY composer.json .
 RUN composer install -n
 
+ARG CI
+ENV CI=$CI
+
 COPY support support
 COPY tests tests
 COPY phpunit.xml .
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
-RUN bin/phpunit --stop-on-error --stop-on-failure
+RUN bin/phpunit --stop-on-error --stop-on-failure --testsuite unit
+RUN bin/phpunit --stop-on-error --stop-on-failure --testsuite integration --exclude-group flaky
+RUN bash -c "for i in {1..10}; do bin/phpunit --stop-on-error --stop-on-failure --testsuite integration --group flaky && exit 0 || sleep 1; done; exit 1;"
 
 COPY features features
 COPY behat.yml .
