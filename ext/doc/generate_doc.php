@@ -396,6 +396,7 @@ function writeMethod($doc, $file, $class, $method, &$singleEOL) {
                 }
                 $parameterName = "$parameterName = $defaultValue";
             }
+            // https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated
             if ($parameterType && rtrim($parameterType) !== 'mixed' && $defaultValue === 'null') {
                 $parameterType = "?$parameterType";
             }

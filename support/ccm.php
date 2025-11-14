@@ -228,6 +228,7 @@ class CCM
                 $params[] = 'memtable_flush_writers: 1';
                 $params[] = 'max_hints_delivery_threads: 1';
 
+                // https://cassandra.apache.org/_/blog/Apache-Cassandra-4.1-Configuration-Standardization.html
                 if (version_compare($this->version, '4.1.0', '>=')) {
                     $params = \preg_replace(
                         ['/_in_ms: (\d+)/m', '/_in_mb: (\d+)/m', '/_mb_per_sec: (\d+)/m', '/^enable_(\w+)/m'],
