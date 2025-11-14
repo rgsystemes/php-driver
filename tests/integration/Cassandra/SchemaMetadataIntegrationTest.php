@@ -510,6 +510,7 @@ class SchemaMetadataIntegrationTest extends BasicIntegrationTest {
             if (strpos($keyspaceName, "system") === 0) continue;
             $this->createKeyspace($keyspaceName);
         }
+        usleep(200000);
 
         $count = 0;
         foreach ($this->session->schema()->keyspaces() as $keyspace) {
