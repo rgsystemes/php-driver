@@ -1,9 +1,18 @@
-FROM php:8.2
+FROM php:8.4
 WORKDIR /tmp/cassandra-php-driver
 
 RUN apt update -y \
- && apt install python3 pip cmake unzip mlocate build-essential git libuv1-dev libssl-dev libgmp-dev openssl zlib1g-dev libpcre3-dev openjdk-11-jre openjdk-11-jdk -y \
- && pip install git+https://github.com/riptano/ccm.git@master
+ && apt install python3 pip cmake unzip plocate build-essential git libuv1-dev libssl-dev libgmp-dev openssl zlib1g-dev libpcre2-dev -y \
+ && pip install --break-system-packages setuptools git+https://github.com/apache/cassandra-ccm \
+ && apt-get install -y wget gnupg ca-certificates \
+ && mkdir -p /etc/apt/keyrings \
+ && wget -O /etc/apt/keyrings/adoptium.gpg https://packages.adoptium.net/artifactory/api/gpg/key/public \
+ && echo "deb [signed-by=/etc/apt/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb bookworm main" > /etc/apt/sources.list.d/adoptium.list \
+ && apt-get update \
+ && apt-get install -y temurin-11-jdk \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p ~/.ccm && echo '[repositories]\ncassandra = https://dlcdn.apache.org/cassandra' > ~/.ccm/config
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin
 RUN docker-php-source extract \
@@ -17,7 +26,7 @@ RUN cmake -DCMAKE_CXX_FLAGS="-fPIC" -DCASS_BUILD_STATIC=OFF -DCASS_BUILD_SHARED=
 RUN docker-php-source extract
 
 COPY ext ext
-ENV NO_INTERACTION true
+ENV NO_INTERACTION=true
 RUN cd ext \
  && phpize \
  && LDFLAGS="-L/usr/local/lib" LIBS="-lssl -lz -luv -lm -lgmp -lstdc++" ./configure --with-cassandra=/usr/local \
@@ -38,10 +47,9 @@ ENV CI=$CI
 COPY support support
 COPY tests tests
 COPY phpunit.xml .
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+ENV JAVA_HOME=/usr
 RUN bin/phpunit --stop-on-error --stop-on-failure --testsuite unit
-RUN bin/phpunit --stop-on-error --stop-on-failure --testsuite integration --exclude-group flaky
-RUN bash -c "for i in {1..10}; do bin/phpunit --stop-on-error --stop-on-failure --testsuite integration --group flaky && exit 0 || sleep 1; done; exit 1;"
+RUN bin/phpunit --stop-on-error --stop-on-failure --testsuite integration
 
 COPY features features
 COPY behat.yml .
